@@ -1,0 +1,107 @@
+import java.util.*;
+import java.util.Scanner;
+
+public class LibraryManagementSystem 
+{
+	
+	public static class Book 
+	{
+		
+		String title;
+		boolean borrowed;
+		
+		public Book(String a, boolean b)
+		{
+			title = a;
+			borrowed = b;
+		}
+		
+		void borrowBook()
+		{
+			borrowed = true;
+		}
+		void returnBook()
+		{
+			borrowed = false;
+		}
+		public String getTitle() 
+		{
+			return title;
+		}
+		public boolean isBorrowed()
+		{
+			return borrowed;
+		}
+	}
+	
+	public static class Library
+	{
+		ArrayList<Book> books = new ArrayList<>();
+		
+		public void addBook(String title) 
+		{
+	        books.add(new Book(title, false));
+	    }
+	}
+
+	public static void main(String[] args) 
+	{
+		Library myLibrary = new Library();
+		Scanner scanner = new Scanner(System.in);
+		int choice = 0;
+		
+		while (choice != 5)
+		{
+			System.out.println("1. Add | 2. Borrow | 3. Return | 4. Display | 5. Exit");
+            System.out.println("Select: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1)
+            {
+                System.out.print("Enter Title: ");
+                myLibrary.addBook(scanner.nextLine());
+            } 
+            else if (choice == 2)
+            {
+                System.out.print("Title to borrow: ");
+                String target = scanner.nextLine();
+                for (Book b : myLibrary.books) 
+                {
+                    if (b.getTitle().equalsIgnoreCase(target) && !b.isBorrowed()) 
+                    {
+                        b.borrowBook();
+                        System.out.println("Success");
+                    }
+                }
+
+            } 
+            else if (choice == 3)
+            {
+                System.out.print("Title to return: ");
+                String target = scanner.nextLine();
+                for (Book b : myLibrary.books) 
+                {
+                    if (b.getTitle().equalsIgnoreCase(target) && b.isBorrowed()) 
+                    {
+                        b.returnBook();
+                        System.out.println("Returned!");
+                    }
+                }
+
+            } 
+            else if (choice == 4)
+            {
+                System.out.println("Available Books:");
+                for (Book b : myLibrary.books) 
+                {
+                    if (!b.isBorrowed()) 
+                    {
+                        System.out.println(b.getTitle());
+                    }
+                }
+            }
+		}
+		scanner.close();
+	}
+}
